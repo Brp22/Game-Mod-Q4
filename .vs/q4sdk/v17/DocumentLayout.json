@@ -28,8 +28,16 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 6,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -38,7 +46,7 @@
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files (x86)\\Steam\\steamapps\\common\\Quake 4\\Polio\\def\\player.def",
               "ToolTip": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Quake 4\\Polio\\def\\player.def",
               "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files (x86)\\Steam\\steamapps\\common\\Quake 4\\Polio\\def\\player.def",
-              "ViewState": "AgIAAIUCAAAAAAAAAAAAAIICAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAK8CAAAAAAAAAAAAALYCAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001913|",
               "WhenOpened": "2025-09-10T14:55:08.931Z",
               "EditorCaption": ""
@@ -66,8 +74,7 @@
               "RelativeToolTip": "game\\weapon\\WeaponRocketLauncher.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-10T14:41:20.695Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-10T14:41:20.695Z"
             },
             {
               "$type": "Document",
@@ -90,7 +97,7 @@
               "RelativeDocumentMoniker": "game\\Player.h",
               "ToolTip": "C:\\Users\\benpo\\Documents\\NJIT\\IT266_GameModDevelopment\\Game-Mod-Q4\\game\\Player.h",
               "RelativeToolTip": "game\\Player.h",
-              "ViewState": "AgIAAAgBAAAAAAAAAAAAAA0BAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAKIAAAAAAAAAAAAAAK4AAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-09-10T15:12:01.706Z",
               "EditorCaption": ""
