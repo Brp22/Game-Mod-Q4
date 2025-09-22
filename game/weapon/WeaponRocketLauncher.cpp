@@ -449,7 +449,7 @@ stateResult_t rvWeaponRocketLauncher::State_Fire ( const stateParms_t& parms ) {
 		case STAGE_INIT:
 			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
 			if (toggleShot) {
-				Attack(false, 6, 5.f, 0, 1.0f);
+				Attack(false, 6, 5.f, 1.f, 1.0f);
 				toggleShot = false;
 			}
 			else {

@@ -28,6 +28,7 @@ protected:
 private:
 
 	int					chargeTime;
+	int					maxCharges;
 	int					chargeDelay;
 	idVec2				chargeGlow;
 	bool				fireForced;
@@ -151,6 +152,7 @@ void rvWeaponBlaster::Spawn ( void ) {
 	
 	chargeGlow   = spawnArgs.GetVec2 ( "chargeGlow" );
 	chargeTime   = SEC2MS ( spawnArgs.GetFloat ( "chargeTime" ) );
+	maxCharges	 = SEC2MS ( spawnArgs.GetInt ( "maxCharges" ) );
 	chargeDelay  = SEC2MS ( spawnArgs.GetFloat ( "chargeDelay" ) );
 
 	fireHeldTime		= 0;
@@ -427,11 +429,16 @@ stateResult_t rvWeaponBlaster::State_Fire ( const stateParms_t& parms ) {
 
 	
 			if ( gameLocal.time - fireHeldTime > chargeTime ) {	
-				Attack ( true, 1, spread, 0, 1.0f );
+				//Prints to the console whatever we put in format string
+				//gameLocal.Printf("Got here at %s : %i \n", __FILE__, __LINE__);
+				int charges = static_cast<int>((gameLocal.time - fireHeldTime) / chargeTime);
+				gameLocal.Printf("Charge Level: %i\n", charges);
+				Attack ( true, charges * 5, static_cast<float>(charges*5), 0, 1.0f );
+				//Attack(true, 1, 0, 0, 1.0f);
 				PlayEffect ( "fx_chargedflash", barrelJointView, false );
 				PlayAnim( ANIMCHANNEL_ALL, "chargedfire", parms.blendFrames );
 			} else {
-				Attack ( true, 100, 100.f, 0, 1.0f );
+				Attack ( false, 1, 0, 0, 1.0f );
 				PlayEffect ( "fx_normalflash", barrelJointView, false );
 				PlayAnim( ANIMCHANNEL_ALL, "fire", parms.blendFrames );
 			}
