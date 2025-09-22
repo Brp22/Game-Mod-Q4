@@ -11,6 +11,10 @@
       "RelativeMoniker": "D:0:0:{49BEC5C6-B964-417A-851E-808886B57430}|game.vcxproj|solutionrelative:game\\weapon\\WeaponBlaster.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{49BEC5C6-B964-417A-851E-808886B57430}|game.vcxproj|C:\\Users\\benpo\\Documents\\NJIT\\IT-266\\Game-Mod-Q4\\game\\Weapon.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{49BEC5C6-B964-417A-851E-808886B57430}|game.vcxproj|solutionrelative:game\\Weapon.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{49BEC5C6-B964-417A-851E-808886B57430}|game.vcxproj|C:\\Users\\benpo\\Documents\\NJIT\\IT-266\\Game-Mod-Q4\\game\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{49BEC5C6-B964-417A-851E-808886B57430}|game.vcxproj|solutionrelative:game\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
@@ -22,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -35,14 +39,28 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "Weapon.cpp",
+              "DocumentMoniker": "C:\\Users\\benpo\\Documents\\NJIT\\IT-266\\Game-Mod-Q4\\game\\Weapon.cpp",
+              "RelativeDocumentMoniker": "game\\Weapon.cpp",
+              "ToolTip": "C:\\Users\\benpo\\Documents\\NJIT\\IT-266\\Game-Mod-Q4\\game\\Weapon.cpp",
+              "RelativeToolTip": "game\\Weapon.cpp",
+              "ViewState": "AgIAAFwHAAAAAAAAAIAwwG0HAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-09-22T14:18:15.063Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Player.cpp",
               "DocumentMoniker": "C:\\Users\\benpo\\Documents\\NJIT\\IT-266\\Game-Mod-Q4\\game\\Player.cpp",
               "RelativeDocumentMoniker": "game\\Player.cpp",
               "ToolTip": "C:\\Users\\benpo\\Documents\\NJIT\\IT-266\\Game-Mod-Q4\\game\\Player.cpp",
               "RelativeToolTip": "game\\Player.cpp",
-              "ViewState": "AgIAALUsAAAAAAAAAADwv7csAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAIYPAAAAAAAAAAAMwJcPAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-09-17T14:21:06.52Z"
+              "WhenOpened": "2025-09-17T14:21:06.52Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -52,7 +70,7 @@
               "RelativeDocumentMoniker": "game\\weapon\\WeaponBlaster.cpp",
               "ToolTip": "C:\\Users\\benpo\\Documents\\NJIT\\IT-266\\Game-Mod-Q4\\game\\weapon\\WeaponBlaster.cpp",
               "RelativeToolTip": "game\\weapon\\WeaponBlaster.cpp",
-              "ViewState": "AgIAAEYBAAAAAAAAAAAAAFUBAAAzAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAJkAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-09-17T14:13:04.495Z",
               "EditorCaption": ""
@@ -63,9 +81,9 @@
               "Title": "WeaponRocketLauncher.cpp",
               "DocumentMoniker": "C:\\Users\\benpo\\Documents\\NJIT\\IT-266\\Game-Mod-Q4\\game\\weapon\\WeaponRocketLauncher.cpp",
               "RelativeDocumentMoniker": "game\\weapon\\WeaponRocketLauncher.cpp",
-              "ToolTip": "C:\\Users\\benpo\\Documents\\NJIT\\IT-266\\Game-Mod-Q4\\game\\weapon\\WeaponRocketLauncher.cpp*",
-              "RelativeToolTip": "game\\weapon\\WeaponRocketLauncher.cpp*",
-              "ViewState": "AgIAAL0BAAAAAAAAAAAAAMMBAAAdAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\benpo\\Documents\\NJIT\\IT-266\\Game-Mod-Q4\\game\\weapon\\WeaponRocketLauncher.cpp",
+              "RelativeToolTip": "game\\weapon\\WeaponRocketLauncher.cpp",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAAAGcAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-09-16T19:59:13.038Z",
               "EditorCaption": ""

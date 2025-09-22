@@ -35,6 +35,7 @@ protected:
 	virtual void			OnLaunchProjectile	( idProjectile* proj );
 
 	void					SetRocketState		( const char* state, int blendFrames );
+	bool				UpdateAttack(void);
 
 	rvClientEntityPtr<rvClientEffect>	guideEffect;
 	idList< idEntityPtr<idEntity> >		guideEnts;
@@ -51,7 +52,8 @@ protected:
 	bool								toggleShot;
 
 private:
-
+	int					fireHeldTime;
+	int					chargeTime;
 	stateResult_t		State_Idle				( const stateParms_t& parms );
 	stateResult_t		State_Fire				( const stateParms_t& parms );
 	stateResult_t		State_Raise				( const stateParms_t& parms );
@@ -99,7 +101,7 @@ void rvWeaponRocketLauncher::Spawn ( void ) {
 	idleEmpty = false;
 	
 	spawnArgs.GetFloat ( "lockRange", "0", guideRange );
-
+	chargeTime = SEC2MS(1); //Sets the charge time for the charge shot
 	spawnArgs.GetFloat ( "lockSlowdown", ".25", f );
 	attackDict.GetFloat ( "speed", "0", guideSpeedFast );
 	guideSpeedSlow = guideSpeedFast * f;
@@ -132,6 +134,7 @@ void rvWeaponRocketLauncher::Spawn ( void ) {
 
 	SetState ( "Raise", 0 );	
 	SetRocketState ( "Rocket_Idle", 0 );
+	fireHeldTime = 0;
 }
 
 /*
@@ -309,6 +312,50 @@ rvWeaponRocketLauncher::PostSave
 void rvWeaponRocketLauncher::PostSave ( void ) {
 }
 
+/*
+================
+rvWeaponBlaster::UpdateAttack
+================
+*/
+bool rvWeaponRocketLauncher::UpdateAttack(void) {
+
+	// If the player is pressing the fire button and they have enough ammo for a shot
+	// then start the shooting process.
+	if (wsfl.attack && gameLocal.time >= nextAttackTime) {
+		// Save the time which the fire button was pressed if it just started
+		if (fireHeldTime == 0) {
+			gameLocal.Printf("Fire Held time reset to current time\n");
+			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier(PMOD_FIRERATE));
+			fireHeldTime = gameLocal.time;
+		}
+	}
+
+	// If they have the charge mod and they have overcome the initial charge 
+	// delay then transition to the charge state.
+	if (fireHeldTime != 0) {
+		gameLocal.Printf("wsfl is: %b\n", wsfl.attack);
+
+		// If the fire button was let go but was pressed at one point then 
+		// release the shot.
+		if (!wsfl.attack) {
+			idPlayer* player = gameLocal.GetLocalPlayer();
+			if (player) {
+
+				if (player->GuiActive()) {
+					//make sure the player isn't looking at a gui first
+					SetState("Lower", 0);
+				}
+				else {
+					SetState("Fire", 0);
+				}
+			}
+			return true;
+		}
+	}
+
+	return false;
+}
+
 
 /*
 ===============================================================================
@@ -426,8 +473,7 @@ stateResult_t rvWeaponRocketLauncher::State_Idle( const stateParms_t& parms ) {
 				SetState ( "Lower", 4 );
 				return SRESULT_DONE;
 			}		
-			if ( gameLocal.time > nextAttackTime && wsfl.attack && ( gameLocal.isClient || AmmoInClip ( ) ) ) {
-				SetState ( "Fire", 2 );
+			if (UpdateAttack()) {
 				return SRESULT_DONE;
 			}
 			return SRESULT_WAIT;
@@ -448,14 +494,14 @@ stateResult_t rvWeaponRocketLauncher::State_Fire ( const stateParms_t& parms ) {
 	switch ( parms.stage ) {
 		case STAGE_INIT:
 			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-			if (toggleShot) {
-				Attack(false, 6, 5.f, 1.f, 1.0f);
-				toggleShot = false;
+			if (gameLocal.time - fireHeldTime > chargeTime) {
+				Attack(false, 10, 5.f, 1.f, 1.0f);
 			}
 			else {
+				gameLocal.Printf("Normal Shot");
 				Attack(false, 1, 0, 0, 1.0f);
-				toggleShot = true;
 			}
+			fireHeldTime = 0;
 			PlayAnim ( ANIMCHANNEL_LEGS, "fire", parms.blendFrames );	
 			return SRESULT_STAGE ( STAGE_WAIT );
 	
