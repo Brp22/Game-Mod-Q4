@@ -1130,7 +1130,7 @@ void Cmd_Spawn_f( const idCmdArgs &args ) {
 	}
 
 	yaw = player->viewAngles.yaw;
-
+	
 	value = args.Argv( 1 );
 	dict.Set( "classname", value );
 	dict.Set( "angle", va( "%f", yaw + 180 ) );
@@ -2841,6 +2841,54 @@ static void ArgCompletion_DefFile( const idCmdArgs &args, void(*callback)( const
 }
 
 /*
+==================
+Get Player Location
+==================
+*/
+void Cmd_LocatePlayer_f(const idCmdArgs& args) {
+	idPlayer *player;
+	idVec3 origin;
+
+	player = gameLocal.GetLocalPlayer();
+	if (!player || !gameLocal.CheatsOk()) {
+		return;
+	}
+	origin = player->GetEyePosition();
+
+	gameLocal.Printf("Location: (%f, %f, %f)", origin.x, origin.y, origin.z);
+}
+
+/*
+==================
+Plant a plant
+==================
+*/
+void Cmd_Plant_f(const idCmdArgs& args) {
+	idPlayer	*player;
+	idVec3		origin;
+	idVec3		spawnPos;
+	idDict		dict;
+
+	player = gameLocal.GetLocalPlayer();
+	if (!player || !gameLocal.CheatsOk()) {
+		return;
+	}
+	spawnPos = player->GetEyePosition() + player->viewAngles.ToForward() * 100.0f;
+	dict.Set("classname", "monster_turret");
+	dict.Set("origin", spawnPos.ToString());
+
+	idEntity* newEnt = NULL;
+	gameLocal.SpawnEntityDef(dict, &newEnt);
+
+	if (newEnt) {
+		gameLocal.Printf("Spawned turret at %s\n", spawnPos.ToString());
+	}
+	else {
+		gameLocal.Printf("Failed to spawn turret!\n");
+	}
+}
+
+/*
 ===============
 Cmd_TestId_f
 outputs a string from the string table for the specified id
@@ -3232,7 +3280,8 @@ void idGameLocal::InitConsoleCommands( void ) {
 	cmdSystem->AddCommand( "buyMenu",				Cmd_ToggleBuyMenu_f,		CMD_FL_GAME,				"Toggle buy menu (if in a buy zone and the game type supports it)" );
 	cmdSystem->AddCommand( "buy",					Cmd_BuyItem_f,				CMD_FL_GAME,				"Buy an item (if in a buy zone and the game type supports it)" );
 // RITUAL END
-
+	cmdSystem->AddCommand("locate", Cmd_LocatePlayer_f, CMD_FL_GAME, "print the player location");
+	cmdSystem->AddCommand("plant", Cmd_Plant_f, CMD_FL_GAME, "plant a turret");
 }
 
 /*
