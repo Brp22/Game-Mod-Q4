@@ -339,6 +339,7 @@ public:
 
 
  	idUserInterface *		hud;				// Common hud
+	idUserInterface *		plantLocationHud;				// CUSTOM HUD
 	idUserInterface *		mphud;				// hud overlay containing MP elements
 	
 	idUserInterface *		objectiveSystem;

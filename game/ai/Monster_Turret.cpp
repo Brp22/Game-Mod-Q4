@@ -30,6 +30,8 @@ protected:
 	int					minShots;
 	int					shots;
 
+	int					plantType;
+
 private:
 
 	rvAIAction			actionBlasterAttack;
@@ -64,6 +66,7 @@ void rvMonsterTurret::Spawn ( void ) {
 	actionBlasterAttack.Init ( spawnArgs,	"action_blasterAttack",	"Torso_BlasterAttack",	AIACTIONF_ATTACK );
 
 	shieldHealth = spawnArgs.GetInt ( "shieldHealth" );
+	plantType = spawnArgs.GetInt("plantType");
 	health += shieldHealth;
 
 	InitSpawnArgsVariables();
@@ -148,15 +151,42 @@ rvMonsterTurret::State_Combat
 */
 stateResult_t rvMonsterTurret::State_Combat ( const stateParms_t& parms ) {
 	// Aquire a new enemy if we dont have one
-	if ( !enemy.ent ) {
+	/*if (!enemy.ent) {
 		CheckForEnemy ( true );
-	}
+	}*/
 
-	FaceEnemy ( );
+	//FaceEnemy ( );
 			
 	// try moving, if there was no movement run then just try and action instead
-	UpdateAction ( );
+	//UpdateAction ( );
 	
+	//Ben: set the enemy entity to whatevers in fron, and start attacking it
+	trace_t trace;
+	idVec3 forward;
+	idVec3 start;
+	idVec3 dir;
+	idVec3 end;
+	idEntity* hitEntity;
+
+	start = GetEyePosition();
+	forward = GetPhysics()->GetAxis()[0];
+	dir = GetPhysics()->GetAxis()[0];
+	end = start + dir * 10000.0f;
+
+	gameLocal.TracePoint(this, trace, start, end, MASK_SHOT_RENDERMODEL, this);
+
+	// Default to NULL
+	enemy.ent = NULL;
+
+	if (trace.c.entityNum != ENTITYNUM_NONE) {
+		hitEntity = gameLocal.entities[trace.c.entityNum];
+		if (hitEntity && hitEntity->IsType(idPlayer::GetClassType())) {
+			enemy.ent = static_cast<idPlayer*>(hitEntity);
+		}
+	}
+
+	PerformAction(&actionBlasterAttack, NULL, &actionTimerRangedAttack);
+
 	return SRESULT_WAIT;
 }
 

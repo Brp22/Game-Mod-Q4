@@ -769,6 +769,8 @@ void idPlayerView::RenderPlayerView( idUserInterface *hud ) {
 		// Now draw GUI's.
 		if ( !guiRendered ) {
 			SingleView( hud, view, RF_GUI_ONLY );
+			//Draw Plant HUD
+			SingleView( player->plantLocationHud, view, RF_GUI_ONLY);
 		}
 
 		ScreenFade();

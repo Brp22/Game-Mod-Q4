@@ -1105,6 +1105,7 @@ idPlayer::idPlayer() {
 	weapon					= NULL;
 
 	hud						= NULL;
+	plantLocationHud		= NULL;
 	mphud					= NULL;
 	objectiveSystem			= NULL;
 	objectiveSystemOpen		= false;
@@ -1839,6 +1840,7 @@ void idPlayer::Spawn( void ) {
 		
 		// load HUD
 		hud = NULL;
+		plantLocationHud = NULL;
 		mphud = NULL;
  		
 		overlayHud = NULL;
@@ -1852,6 +1854,14 @@ void idPlayer::Spawn( void ) {
 			gameLocal.Warning( "idPlayer::Spawn() - No hud for player." );
 		}
 
+		//Load Plant HUD
+		if (spawnArgs.GetString("plantLocationHud", "", temp)) {
+			plantLocationHud = uiManager->FindGui(temp, true, false, true);
+		}
+		else {
+			gameLocal.Warning("idPlayer::Spawn() - No Plant Location HUD.");
+		}
+
 		if ( gameLocal.isMultiplayer ) {
 			if ( spawnArgs.GetString( "mphud", "", temp ) ) {
 				mphud = uiManager->FindGui( temp, true, false, true );
@@ -1862,6 +1872,10 @@ void idPlayer::Spawn( void ) {
 
 		if ( hud ) {
 			hud->Activate( true, gameLocal.time );
+		}
+		//Plant Hud
+		if (plantLocationHud) {
+			plantLocationHud->Activate(true, gameLocal.time);
 		}
 
 		if ( mphud ) {

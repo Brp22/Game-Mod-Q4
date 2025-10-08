@@ -2860,6 +2860,32 @@ void Cmd_LocatePlayer_f(const idCmdArgs& args) {
 
 /*
 ==================
+Get Whatever Your looking at, Kinda works?
+==================
+*/
+void Cmd_Scan_f(const idCmdArgs& args) {
+	idPlayer* player;
+	trace_t trace;
+	idEntity* hitEntity;
+	idVec3 end;
+
+	player = gameLocal.GetLocalPlayer();
+	if (!player || !gameLocal.CheatsOk()) {
+		return;
+	}
+	end = player->GetEyePosition() + player->viewAngles.ToForward() * 768.0f;
+
+	gameLocal.TracePoint(player, trace, player->GetEyePosition(), end, MASK_SOLID, player);
+	if (trace.c.entityNum != ENTITYNUM_NONE) {
+		hitEntity = gameLocal.entities[trace.c.entityNum];
+		if (hitEntity) {
+			gameLocal.Printf("Entity: %s\nClass: %s", hitEntity->GetName(), hitEntity->GetClassname());
+		}
+	}
+}
+
+/*
+==================
 Plant a plant
 ==================
 */
@@ -2868,6 +2894,7 @@ void Cmd_Plant_f(const idCmdArgs& args) {
 	idVec3		origin;
 	idVec3		spawnPos;
 	idDict		dict;
+	idEntity* newEnt;
 
 	player = gameLocal.GetLocalPlayer();
 	if (!player || !gameLocal.CheatsOk()) {
@@ -2877,7 +2904,7 @@ void Cmd_Plant_f(const idCmdArgs& args) {
 	dict.Set("classname", "monster_turret");
 	dict.Set("origin", spawnPos.ToString());
 
-	idEntity* newEnt = NULL;
+	newEnt = NULL;
 	gameLocal.SpawnEntityDef(dict, &newEnt);
 
 	if (newEnt) {
@@ -3282,6 +3309,7 @@ void idGameLocal::InitConsoleCommands( void ) {
 // RITUAL END
 	cmdSystem->AddCommand("locate", Cmd_LocatePlayer_f, CMD_FL_GAME, "print the player location");
 	cmdSystem->AddCommand("plant", Cmd_Plant_f, CMD_FL_GAME, "plant a turret");
+	cmdSystem->AddCommand("scan", Cmd_Scan_f, CMD_FL_GAME, "scan for a physical entity");
 }
 
 /*
