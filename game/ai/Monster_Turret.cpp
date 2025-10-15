@@ -173,11 +173,13 @@ stateResult_t rvMonsterTurret::State_Combat ( const stateParms_t& parms ) {
 	dir = GetPhysics()->GetAxis()[0];
 	end = start + dir * 10000.0f;
 
+	//Raytrace in front of it
 	gameLocal.TracePoint(this, trace, start, end, MASK_SHOT_RENDERMODEL, this);
 
 	// Default to NULL
 	enemy.ent = NULL;
 
+	//If the turret sees anything, set that to the enemy
 	if (trace.c.entityNum != ENTITYNUM_NONE) {
 		hitEntity = gameLocal.entities[trace.c.entityNum];
 		if (hitEntity && hitEntity->IsType(idPlayer::GetClassType())) {
@@ -214,7 +216,21 @@ stateResult_t rvMonsterTurret::State_Torso_BlasterAttack ( const stateParms_t& p
 	switch ( parms.stage ) {
 		case STAGE_INIT:
 			DisableAnimState ( ANIMCHANNEL_LEGS );
-			shots = (minShots + gameLocal.random.RandomInt(maxShots-minShots+1)) * combat.aggressiveScale;
+
+			//Get shots depending on plant type (Turret shoots 1 less than what shots is initialized to
+			switch (plantType) {
+			case 2:
+				//chunky
+				shots = 2;
+				break;
+			case 3:
+				//tiny
+				shots = 2;
+				break;
+			default:
+				shots = (minShots + gameLocal.random.RandomInt(maxShots - minShots + 1)) * combat.aggressiveScale;
+				break;
+			}
 			return SRESULT_STAGE ( STAGE_FIRE );
 			
 		case STAGE_FIRE:
