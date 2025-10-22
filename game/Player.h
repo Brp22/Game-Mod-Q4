@@ -348,7 +348,8 @@ public:
 	bool					objectiveButtonReleased;
 	bool					disableHud;
 	bool					showNewObjectives;
-
+	int lastPlant;
+	double money;
 	int						lastDmgTime;
 	int						deathClearContentsTime;
  	bool					doingDeathSkin;

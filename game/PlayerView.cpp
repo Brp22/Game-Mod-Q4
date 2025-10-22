@@ -739,6 +739,8 @@ idPlayerView::RenderPlayerView
 ===================
 */
 void idPlayerView::RenderPlayerView( idUserInterface *hud ) {
+	idVec3 origin;
+
 	if ( !player ) {
 		return;
 	}
@@ -769,8 +771,14 @@ void idPlayerView::RenderPlayerView( idUserInterface *hud ) {
 		// Now draw GUI's.
 		if ( !guiRendered ) {
 			SingleView( hud, view, RF_GUI_ONLY );
-			//Draw Plant HUD
-			SingleView( player->plantLocationHud, view, RF_GUI_ONLY);
+			//Add money
+			player->money += 0.005;
+			//Check if can plant here
+			origin = player->GetEyePosition();
+			if (origin.x > 9400 && origin.y < -8000) {
+				SingleView(player->plantLocationHud, view, RF_GUI_ONLY);
+			}
+			
 		}
 
 		ScreenFade();
