@@ -2874,7 +2874,21 @@ void Cmd_Help_f(const idCmdArgs& args) {
 	gameLocal.Printf("HELPPP!");
 }
 
+/*
+==================
+Show Money
+==================
+*/
+void Cmd_Money_f(const idCmdArgs& args) {
+	idPlayer* player;
 
+	player = gameLocal.GetLocalPlayer();
+	if (!player || !gameLocal.CheatsOk()) {
+		return;
+	}
+
+	gameLocal.Printf("You have %i money\n", static_cast<int>(player->money));
+}
 
 /*
 ==================
@@ -2913,35 +2927,54 @@ void Cmd_Plant_f(const idCmdArgs& args) {
 	idVec3		spawnPos;
 	idDict		dict;
 	idEntity* newEnt;
-	int plantType;
 	const char* defName;
+	int cost;
 
 	player = gameLocal.GetLocalPlayer();
 	if (!player || !gameLocal.CheatsOk()) {
 		return;
 	}
 
-	plantType = 1;
 	if (args.Argc() > 1) {
-		plantType = atoi(args.Argv(1));
+		player->lastPlant = atoi(args.Argv(1));
 	}
 
-	switch (plantType) {
+
+
+	switch (player->lastPlant) {
 	case 2:
+		cost = 25;
 		defName = "plant_chunky";
 		break;
 	case 3:
+		cost = 10;
 		defName = "plant_tiny";
 		break;
+	case 4:
+		cost = 5;
+		defName = "plant_gourd";
+		break;
+	case 5:
+		cost = 10;
+		defName = "plant_money";
+		break;
 	default:
-		plantType = 1;
+		cost = 10;
 		defName = "monster_turret";
 		break;
 	}
 
-	spawnPos = player->GetEyePosition() + player->viewAngles.ToForward() * 100.0f;
+	if (player->money < cost) {
+		gameLocal.Printf("You need %i money to purchase %s. You have %i money\n", cost, defName, static_cast<int>(player->money));
+		return;
+	}
+
+	player->money -= cost;
+
+	spawnPos = player->GetPhysics()->GetOrigin() + idVec3(0, 0, (player->GetEyePosition().z - player->GetPhysics()->GetOrigin().z) * 0.5f) + player->viewAngles.ToForward() * 100.0f;
 	dict.Set("classname", defName);
 	dict.Set("origin", spawnPos.ToString());
+
 
 	newEnt = NULL;
 	gameLocal.SpawnEntityDef(dict, &newEnt);
@@ -2951,6 +2984,40 @@ void Cmd_Plant_f(const idCmdArgs& args) {
 	}
 	else {
 		gameLocal.Printf("Failed to spawn turret!\n");
+	}
+}
+
+/*
+==================
+Summon a Zombie
+==================
+*/
+void Cmd_Rise_f(const idCmdArgs& args) {
+	idPlayer* player;
+	idVec3		origin;
+	idVec3		spawnPos;
+	idDict		dict;
+	idEntity* newEnt;
+	const char* defName;
+
+	player = gameLocal.GetLocalPlayer();
+	if (!player || !gameLocal.CheatsOk()) {
+		return;
+	}
+	
+	spawnPos = player->GetEyePosition() + player->viewAngles.ToForward() * 100.0f;
+	defName = "monster_grunt";
+	dict.Set("classname", defName);
+	dict.Set("origin", spawnPos.ToString());
+
+	newEnt = NULL;
+	gameLocal.SpawnEntityDef(dict, &newEnt);
+	//Zombie
+	if (newEnt) {
+		gameLocal.Printf("Summoned Zombie (type %s) at %s\n", defName, spawnPos.ToString());
+	}
+	else {
+		gameLocal.Printf("Failed to summon zombie!\n");
 	}
 }
 
@@ -3350,6 +3417,8 @@ void idGameLocal::InitConsoleCommands( void ) {
 	cmdSystem->AddCommand("plant", Cmd_Plant_f, CMD_FL_GAME, "plant a turret");
 	cmdSystem->AddCommand("scan", Cmd_Scan_f, CMD_FL_GAME, "scan for a physical entity");
 	cmdSystem->AddCommand("showHelp", Cmd_Help_f, CMD_FL_GAME, "Show Help Screen");
+	cmdSystem->AddCommand("rise", Cmd_Rise_f, CMD_FL_GAME, "Summon a zombie");
+	cmdSystem->AddCommand("money", Cmd_Money_f, CMD_FL_GAME, "Show ur cash");
 }
 
 /*

@@ -1106,6 +1106,8 @@ idPlayer::idPlayer() {
 
 	hud						= NULL;
 	plantLocationHud		= NULL;
+	money = 10;
+	lastPlant = 1;
 	mphud					= NULL;
 	objectiveSystem			= NULL;
 	objectiveSystemOpen		= false;
@@ -1506,7 +1508,7 @@ void idPlayer::Init( void ) {
 
 	oldButtons				= 0;
 	oldFlags				= 0;
-
+	
 	currentWeapon			= -1;
 	idealWeapon				= -1;
 	previousWeapon			= -1;

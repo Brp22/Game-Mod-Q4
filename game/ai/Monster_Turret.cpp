@@ -167,6 +167,7 @@ stateResult_t rvMonsterTurret::State_Combat ( const stateParms_t& parms ) {
 	idVec3 dir;
 	idVec3 end;
 	idEntity* hitEntity;
+	idPlayer* player;
 
 	start = GetEyePosition();
 	forward = GetPhysics()->GetAxis()[0];
@@ -188,6 +189,15 @@ stateResult_t rvMonsterTurret::State_Combat ( const stateParms_t& parms ) {
 	}
 
 	PerformAction(&actionBlasterAttack, NULL, &actionTimerRangedAttack);
+	
+
+
+	if (plantType == 5) {
+		player = gameLocal.GetLocalPlayer();
+		if (player) {
+			player->money += 0.003;
+		}
+	}
 
 	return SRESULT_WAIT;
 }
@@ -226,6 +236,14 @@ stateResult_t rvMonsterTurret::State_Torso_BlasterAttack ( const stateParms_t& p
 			case 3:
 				//tiny
 				shots = 2;
+				break;
+			case 4:
+				//gourd
+				shots = 0;
+				break;
+			case 5:
+				//money
+				shots = 0;
 				break;
 			default:
 				shots = (minShots + gameLocal.random.RandomInt(maxShots - minShots + 1)) * combat.aggressiveScale;
